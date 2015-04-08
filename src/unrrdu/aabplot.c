@@ -111,7 +111,8 @@ unrrdu_aabplotMain(int argc, const char **argv, const char *me,
   {
 #define PTNUM 5
     double *in, *buff, ptile[PTNUM]={5,25,50,75,95};
-    unsigned int xi, yi, pi, ti, ltt, sx, sy, pti[PTNUM];
+    unsigned int xi, yi, pi, ti, sx, sy, pti[PTNUM];
+    //unsigned int ltt;
     char *line, rbuff[128];
     Nrrd *nbuff;
 
@@ -158,7 +159,7 @@ unrrdu_aabplotMain(int argc, const char **argv, const char *me,
                 buff[airIndexClamp(0, ptile[ti], 100, sx)], pti[ti]);
         */
       }
-      ltt = (unsigned int)(-1);
+      // ltt = (unsigned int)(-1);
       for (pi=0; pi<plen; pi++) {
         line[pi] = pi % 2 ? ' ' : '.';
       }
