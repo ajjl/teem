@@ -725,10 +725,13 @@ ell_6ms_eigensolve_d(double eval[6], double _evec[36],
       }
     }
     /* perform Jacobi rotation */
+
 //Supress false array bounds warnings with Gcc compiler
 #if defined( __GNUC__ )
+#if ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 8 )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
 #endif
     for (rrI=0; rrI<P; rrI++) {
       mat[1-cur][rrI][P] = cc*mat[cur][rrI][P] - ss*mat[cur][rrI][Q];
@@ -747,7 +750,9 @@ ell_6ms_eigensolve_d(double eval[6], double _evec[36],
       mat[1-cur][Q][ccI] = ss*mat[cur][P][ccI] + cc*mat[cur][Q][ccI];
     }
 #if defined( __GNUC__ )
+#if (( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 8 ))
 #pragma GCC diagnostic pop
+#endif
 #endif
 
     /* set special entries */

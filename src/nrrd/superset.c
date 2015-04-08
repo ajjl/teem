@@ -92,8 +92,10 @@ nrrdSplice(Nrrd *nout, const Nrrd *nin, const Nrrd *nslice,
 
 //Supress false array bounds warnings with GCC compiler
 #if defined( __GNUC__ )
+#if ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 8 )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
 #endif
   for (ai=0; ai<nslice->dim; ai++) {
     if (!( nin->axis[ai + (ai >= axis)].size == nslice->axis[ai].size )) {
@@ -105,9 +107,10 @@ nrrdSplice(Nrrd *nout, const Nrrd *nin, const Nrrd *nslice,
     }
   }
 #if defined ( __GNUC__ )
+#if( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 8 )
 #pragma GCC diagnostic pop
 #endif
-
+#endif
 
   if (nout != nin) {
     if (nrrdCopy(nout, nin)) {
