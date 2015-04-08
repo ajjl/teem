@@ -89,6 +89,12 @@ nrrdSplice(Nrrd *nout, const Nrrd *nin, const Nrrd *nslice,
       return 1;
     }
   }
+
+//Supress false array bounds warnings with GCC compiler
+#if defined( __GNUC__ )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
   for (ai=0; ai<nslice->dim; ai++) {
     if (!( nin->axis[ai + (ai >= axis)].size == nslice->axis[ai].size )) {
       biffAddf(NRRD, "%s: input ax %d size (%s) != slices ax %d size (%s)",
@@ -98,6 +104,10 @@ nrrdSplice(Nrrd *nout, const Nrrd *nin, const Nrrd *nslice,
       return 1;
     }
   }
+#if defined ( __GNUC__ )
+#pragma GCC diagnostic pop
+#endif
+
 
   if (nout != nin) {
     if (nrrdCopy(nout, nin)) {
