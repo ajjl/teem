@@ -76,7 +76,7 @@ foreach(type LIBRARY RUNTIME ARCHIVE)
   # Make sure the directory exists
   if(DEFINED CMAKE_${type}_OUTPUT_DIRECTORY
      AND NOT EXISTS ${CMAKE_${type}_OUTPUT_DIRECTORY})
-    if(OUTPUT_DIRS_REQUIRED_TO_ALREADY_EXIST)
+    if(${OUTPUT_DIRS_REQUIRED_TO_ALREADY_EXIST})
       message(FATAL_ERROR "CMAKE_${type}_OUTPUT_DIRECTORY is set to a non-existing directory [${CMAKE_${type}_OUTPUT_DIRECTORY}]")
     else()
       message(WARNING "CMAKE_${type}_OUTPUT_DIRECTORY is set to a non-existing directory [${CMAKE_${type}_OUTPUT_DIRECTORY}]")
