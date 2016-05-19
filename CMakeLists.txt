@@ -60,6 +60,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 set(CMAKE_C_FLAGS "${CMAKE_ANSI_CFLAGS} ${CMAKE_C_FLAGS}")
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_ANSI_CFLAGS})
 
+# Are output directories required to exist? Default is Yes
+if(NOT DEFINED OUTPUT_DIRS_REQUIRED_TO_ALREADY_EXIST)
+  set(OUTPUT_DIRS_REQUIRED_TO_ALREADY_EXIST:BOOL ON)
+endif()
+
 #-----------------------------------------------------------------------------
 # Test for some required system information.
 include (CMakeBackwardCompatibilityC)
@@ -71,7 +76,12 @@ foreach(type LIBRARY RUNTIME ARCHIVE)
   # Make sure the directory exists
   if(DEFINED CMAKE_${type}_OUTPUT_DIRECTORY
      AND NOT EXISTS ${CMAKE_${type}_OUTPUT_DIRECTORY})
-    message(FATAL_ERROR "CMAKE_${type}_OUTPUT_DIRECTORY is set to a non-existing directory [${CMAKE_${type}_OUTPUT_DIRECTORY}]")
+    if(OUTPUT_DIRS_REQUIRED_TO_ALREADY_EXIST)
+      message(FATAL_ERROR "CMAKE_${type}_OUTPUT_DIRECTORY is set to a non-existing directory [${CMAKE_${type}_OUTPUT_DIRECTORY}]")
+    else()
+      message(WARNING "CMAKE_${type}_OUTPUT_DIRECTORY is set to a non-existing directory [${CMAKE_${type}_OUTPUT_DIRECTORY}]")
+      message(WARNING "Creating Directory")
+    endif()
   endif()
   if(NOT DEFINED CMAKE_${type}_OUTPUT_DIRECTORY)
     set(CMAKE_${type}_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
